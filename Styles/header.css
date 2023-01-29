@@ -1,0 +1,18 @@
+#header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    height: var(--top-down-height);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#logo h1 {
+    color: white;
+    font-size: calc(20px + 3vh);
+    font-weight: 400;
+}

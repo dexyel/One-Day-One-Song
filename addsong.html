@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Song of the Day</title>
+</head>
+<body style="background: #141414; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;">
+    <h2 id="date"></h2>
+
+    <label for="artist-input">Artist</label>
+    <input type="text" name="Artist" id="artist-input">
+   
+    <label for="title-input">Title</label>
+    <input type="text" name="Title" id="title-input">
+
+    <label for="id-input">Video ID</label>
+    <input type="text" name="Video ID" id="id-input">
+
+    <label for="cover-input">Cover URL</label>
+    <input type="text" name="Cover URL" id="cover-input">
+
+    <button id="upload">UPLOAD</button>
+
+    <script>
+        const date = new Date();
+        const dateH2 = document.querySelector('#date');
+        const artistInput = document.querySelector('#artist-input');
+        const titleInput = document.querySelector('#title-input');
+        const idInput = document.querySelector('#id-input');
+        const coverInput = document.querySelector('#cover-input');
+
+        dateH2.innerText = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`;
+    </script>
+</body>
+</html>

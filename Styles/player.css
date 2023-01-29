@@ -1,0 +1,28 @@
+#player-container {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--top-down-height);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#play-button {
+    width: 50px;
+    aspect-ratio: 1;
+    background: none;
+    border: none;
+    color: white;
+}
+
+#play-button i {
+    font-size: 4rem;
+}
+
+#play-button:active > i{
+    opacity: 0.8;
+}

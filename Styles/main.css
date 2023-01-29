@@ -1,0 +1,89 @@
+#main-container {
+    position: fixed;
+    top: 15%;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+    display: flex;
+}
+
+#left-container,
+#right-container {
+    height: 100%;
+    padding: 0 2rem;
+}
+
+#left-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    aspect-ratio: 1;
+}
+
+#song-cover,
+#song-video {
+    height: 90%;
+    border-radius: 15px;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+img {
+    width: max-content;
+    height: 100%;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.opened {
+    width: 100%;
+}
+
+.closed {
+    width: 10%;
+    background-color: rgba(128, 128, 128, 0.9) !important;
+}
+
+.closed > img,
+.closed > iframe {
+    filter: saturate(0%);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.closed:hover > img,
+.closed:hover > iframe {
+    filter: saturate(100%);
+}
+
+#right-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+#song-info {
+    display: flex;
+    gap: 10px;
+    margin: 2rem 0;
+    text-align: center;
+    color: white;
+    font-size: calc(12px + 1vh);
+}
+
+#lyrics {
+    text-align: center;
+}
+
+#artist-name {
+    font-weight: 600;
+}
+
+#song-title {
+    font-weight: 400;
+}

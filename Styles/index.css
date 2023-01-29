@@ -1,0 +1,29 @@
+:root {
+    --background: #141414;
+    --top-down-height: 15%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--background);
+    overflow: auto;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    z-index: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.background {
+    opacity: 0.1;
+    width: 100%;
+}
