@@ -43,10 +43,6 @@ localStorage.setItem('url', todayURL);
 localStorage.setItem('id', todayID);
 localStorage.setItem('bg', todayBackground);
 
-fetch(`https://lyrix.vercel.app/getLyricsByName/${todayArtist}/${todayTitle}`)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        localStorage.setItem('lyrics', JSON.stringify(data.lyrics));
-    })
-    .catch(error => console.error(error));
+let url = `https://odos.comas-dylan.workers.dev/getLyricsByName/${todayArtist}/${todayTitle}`;
+
+fetch(url).then(response => response.json()).then(data => { localStorage.setItem('lyrics', JSON.stringify(data.lyrics)); }).catch(error => console.error(error));
