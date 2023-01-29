@@ -78,6 +78,13 @@ iframe {
 
 #lyrics {
     text-align: center;
+    overflow: auto;
+    margin-bottom: 2rem;
+}
+
+#lyrics p {
+    opacity: 0.2;
+    margin-bottom: calc(1px + 1vh);
 }
 
 #artist-name {

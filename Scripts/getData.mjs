@@ -37,15 +37,16 @@ const todayID = docSnap.data().id;
 const todayURL = docSnap.data().url;
 const todayBackground = docSnap.data().background;
 
-const geniusOptions = {
-    apiKey: 'DeMGzjuAqIRJIB5Oslo6A3Zh1OTiDLekoOIgQKljcRH7EJaDEsy7XXEdl6CxrMaS',
-    title: todayTitle,
-    artist: todayArtist,
-    optimizeQuery: true
-};
-
 localStorage.setItem('artist', todayArtist);
 localStorage.setItem('title', todayTitle);
 localStorage.setItem('url', todayURL);
 localStorage.setItem('id', todayID);
 localStorage.setItem('bg', todayBackground);
+
+fetch(`https://lyrix.vercel.app/getLyricsByName/${todayArtist}/${todayTitle}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        localStorage.setItem('lyrics', JSON.stringify(data.lyrics));
+    })
+    .catch(error => console.error(error));
