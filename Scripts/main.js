@@ -64,14 +64,16 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
     event.target.playVideo();
+    isPlaying = true;
 }
 
 function onPlayerStateChange() {
-    isPlaying = !isPlaying;
     updateButton();
 }
 
 function handlePlayPause() {
+    isPlaying = !isPlaying;
+
     if (isPlaying) {
         player.pauseVideo();
     }
