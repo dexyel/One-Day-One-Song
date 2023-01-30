@@ -20,43 +20,22 @@
     aspect-ratio: 1;
 }
 
-#song-cover,
-#song-video {
+#song-cover {
     height: 90%;
     border-radius: 15px;
     overflow: hidden;
     aspect-ratio: 1;
+    margin-left: 2rem;
+    width: 100%;
 }
 
 img {
-    width: max-content;
-    height: 100%;
-}
-
-iframe {
     width: 100%;
     height: 100%;
 }
 
-.opened {
-    width: 100%;
-}
-
-.closed {
-    width: 10%;
-    background-color: rgba(128, 128, 128, 0.9) !important;
-}
-
-.closed > img,
-.closed > iframe {
-    filter: saturate(0%);
-    opacity: 0.2;
-    pointer-events: none;
-}
-
-.closed:hover > img,
-.closed:hover > iframe {
-    filter: saturate(100%);
+#song-video {
+    display: none;
 }
 
 #right-container {

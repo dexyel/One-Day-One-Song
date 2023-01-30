@@ -45,4 +45,4 @@ localStorage.setItem('bg', todayBackground);
 
 let url = `https://odos.comas-dylan.workers.dev/getLyricsByName/${todayArtist}/${todayTitle}`;
 
-fetch(url).then(response => response.json()).then(data => { localStorage.setItem('lyrics', JSON.stringify(data.lyrics)); }).catch(error => console.error(error));
+fetch(url).then(response => response.json()).then(data => { localStorage.setItem('lyrics', JSON.stringify(data.lyrics)); });

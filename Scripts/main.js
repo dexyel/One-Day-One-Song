@@ -15,15 +15,13 @@ let interval;
 //#endregion
 
 //#region LISTENERS
-playButton.addEventListener('click', handlePlayPause);
 
 leftDivs.forEach((div) => {
     div.addEventListener('click', (e) => switchLeftView(e));
 });
 //#endregion
 
-//#region FUNCTIONS
-function onYouTubeIframeAPIReady() {
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
     let artist = localStorage.getItem('artist');
     let title = localStorage.getItem('title');
     let id = localStorage.getItem('id');
@@ -31,15 +29,14 @@ function onYouTubeIframeAPIReady() {
     let bg = localStorage.getItem('bg');
     let lyrics = JSON.parse(localStorage.getItem('lyrics'));
 
-    player = new YT.Player(iframe, {
-        height: '100%',
-        width: '100%',
-        videoId: id,
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
+    let options = {
+        uri: id
+    };
+    let callback = (EmbedController) => {
+        playButton.addEventListener('click', () => handlePlayPause(EmbedController));
+    };
+
+    IFrameAPI.createController(iframe, options, callback);
 
     let img = document.createElement('img');
     img.src = url;
@@ -59,19 +56,9 @@ function onYouTubeIframeAPIReady() {
         p.classList.add('lyrics-line');
         lyricsDiv.appendChild(p);
     });
-}
+};
 
-function onPlayerReady(event) {
-    event.target.playVideo();
-
-    interval = setInterval(() => {
-        if (isPlaying) {
-            syncLyrics(event.target.getCurrentTime());
-        } else {
-            clearInterval(interval);
-        }
-    }, 100);
-} 
+//#region FUNCTIONS
 
 function syncLyrics(time) {
     time *= 1000;
@@ -92,19 +79,24 @@ function syncLyrics(time) {
     }
 }
 
-function onPlayerStateChange() {
+// function onPlayerStateChange() {
+//     isPlaying = !isPlaying;
+
+//     updateButton();
+
+//     interval = setInterval(() => {
+//         if (isPlaying) {
+//             syncLyrics(event.target.getCurrentTime());
+//         } else {
+//             clearInterval(interval);
+//         }
+//     }, 100);
+// }
+
+function handlePlayPause(EmbedController) {
     isPlaying = !isPlaying;
 
-    updateButton();
-}
-
-function handlePlayPause() {
-    if (isPlaying) {
-        player.pauseVideo();
-    }
-    else {
-        player.playVideo();
-    }
+    EmbedController.togglePlay();
 
     updateButton();
 }
@@ -120,14 +112,14 @@ function updateButton() {
     }
 }
 
-function switchLeftView(e) {
-    if (e.target === songCover && songCover.classList.contains('closed')) {
-        songCover.classList.replace('closed', 'opened');
-        songVideo.classList.replace('opened', 'closed');
-    }
-    else if (e.target === songVideo && songVideo.classList.contains('closed')) {
-        songVideo.classList.replace('closed', 'opened');
-        songCover.classList.replace('opened', 'closed');
-    }
-}
+// function switchLeftView(e) {
+//     if (e.target === songCover && songCover.classList.contains('closed')) {
+//         songCover.classList.replace('closed', 'opened');
+//         songVideo.classList.replace('opened', 'closed');
+//     }
+//     else if (e.target === songVideo && songVideo.classList.contains('closed')) {
+//         songVideo.classList.replace('closed', 'opened');
+//         songCover.classList.replace('opened', 'closed');
+//     }
+// }
 //#endregion
