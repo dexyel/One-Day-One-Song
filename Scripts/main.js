@@ -35,8 +35,7 @@ function onYouTubeIframeAPIReady() {
         width: '100%',
         videoId: id,
         events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onReady': onPlayerReady
         }
     });
 
@@ -65,9 +64,6 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
     event.target.playVideo();
     isPlaying = true;
-}
-
-function onPlayerStateChange() {
     updateButton();
 }
 
