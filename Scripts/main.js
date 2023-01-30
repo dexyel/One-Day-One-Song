@@ -35,7 +35,8 @@ function onYouTubeIframeAPIReady() {
         width: '100%',
         videoId: id,
         events: {
-            'onReady': onPlayerReady
+            'onReady': onPlayerReady,
+            'onPlayerStateChange': onPlayerStateChange
         }
     });
 
@@ -63,21 +64,10 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
     event.target.playVideo();
-    isPlaying = true;
-    updateButton();
 }
 
-function handlePlayPause() {
+function onPlayerStateChange() {
     isPlaying = !isPlaying;
-
-    if (isPlaying) {
-        player.pauseVideo();
-    }
-    else {
-        player.playVideo();
-    }
-
-    updateButton();
 }
 
 function updateButton() {
