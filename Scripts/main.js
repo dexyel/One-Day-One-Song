@@ -11,7 +11,6 @@ const body = document.querySelector('body');
 
 let isPlaying = false;
 let player;
-let interval;
 //#endregion
 
 //#region LISTENERS
@@ -34,7 +33,7 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player(iframe, {
         height: '100%',
         width: '100%',
-        videoId: id,
+        videoId: 'LGMOX8NpuR0',
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -64,40 +63,12 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    event.target.playVideo();    
-} 
-
-function syncLyrics(time) {
-    time *= 1000;
-
-    for (var i = 0; i < lyrics.length; i++) {
-        let startTime = lyrics[i].getAttribute("data-start-time");
-        let nextTime = lyrics[i + 1].getAttribute("data-start-time");
-
-        if (time >= startTime && time < nextTime) {
-            lyrics[i].style.opacity = "1";
-        } 
-        else if (time < startTime) {
-            lyrics[i].style.opacity = "0.2";
-        } 
-        else {
-            lyrics[i].style.opacity = "0.2";
-        }
-    }
+    event.target.playVideo();
 }
 
 function onPlayerStateChange() {
     isPlaying = !isPlaying;
-
     updateButton();
-
-    interval = setInterval(() => {
-        if (isPlaying) {
-            syncLyrics(event.target.getCurrentTime());
-        } else {
-            clearInterval(interval);
-        }
-    }, 100);
 }
 
 function handlePlayPause() {
