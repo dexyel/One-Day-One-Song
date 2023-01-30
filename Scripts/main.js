@@ -15,13 +15,15 @@ let interval;
 //#endregion
 
 //#region LISTENERS
+playButton.addEventListener('click', handlePlayPause);
 
 leftDivs.forEach((div) => {
     div.addEventListener('click', (e) => switchLeftView(e));
 });
 //#endregion
 
-window.onSpotifyIframeApiReady = (IFrameAPI) => {
+//#region FUNCTIONS
+function onYouTubeIframeAPIReady() {
     let artist = localStorage.getItem('artist');
     let title = localStorage.getItem('title');
     let id = localStorage.getItem('id');
@@ -29,14 +31,15 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
     let bg = localStorage.getItem('bg');
     let lyrics = JSON.parse(localStorage.getItem('lyrics'));
 
-    let options = {
-        uri: id
-    };
-    let callback = (EmbedController) => {
-        playButton.addEventListener('click', () => handlePlayPause(EmbedController));
-    };
-
-    IFrameAPI.createController(iframe, options, callback);
+    player = new YT.Player(iframe, {
+        height: '100%',
+        width: '100%',
+        videoId: id,
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
 
     let img = document.createElement('img');
     img.src = url;
@@ -56,9 +59,11 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
         p.classList.add('lyrics-line');
         lyricsDiv.appendChild(p);
     });
-};
+}
 
-//#region FUNCTIONS
+function onPlayerReady(event) {
+    event.target.playVideo();    
+} 
 
 function syncLyrics(time) {
     time *= 1000;
@@ -79,24 +84,27 @@ function syncLyrics(time) {
     }
 }
 
-// function onPlayerStateChange() {
-//     isPlaying = !isPlaying;
-
-//     updateButton();
-
-//     interval = setInterval(() => {
-//         if (isPlaying) {
-//             syncLyrics(event.target.getCurrentTime());
-//         } else {
-//             clearInterval(interval);
-//         }
-//     }, 100);
-// }
-
-function handlePlayPause(EmbedController) {
+function onPlayerStateChange() {
     isPlaying = !isPlaying;
 
-    EmbedController.togglePlay();
+    updateButton();
+
+    interval = setInterval(() => {
+        if (isPlaying) {
+            syncLyrics(event.target.getCurrentTime());
+        } else {
+            clearInterval(interval);
+        }
+    }, 100);
+}
+
+function handlePlayPause() {
+    if (isPlaying) {
+        player.pauseVideo();
+    }
+    else {
+        player.playVideo();
+    }
 
     updateButton();
 }
@@ -112,14 +120,14 @@ function updateButton() {
     }
 }
 
-// function switchLeftView(e) {
-//     if (e.target === songCover && songCover.classList.contains('closed')) {
-//         songCover.classList.replace('closed', 'opened');
-//         songVideo.classList.replace('opened', 'closed');
-//     }
-//     else if (e.target === songVideo && songVideo.classList.contains('closed')) {
-//         songVideo.classList.replace('closed', 'opened');
-//         songCover.classList.replace('opened', 'closed');
-//     }
-// }
+function switchLeftView(e) {
+    if (e.target === songCover && songCover.classList.contains('closed')) {
+        songCover.classList.replace('closed', 'opened');
+        songVideo.classList.replace('opened', 'closed');
+    }
+    else if (e.target === songVideo && songVideo.classList.contains('closed')) {
+        songVideo.classList.replace('closed', 'opened');
+        songCover.classList.replace('opened', 'closed');
+    }
+}
 //#endregion
