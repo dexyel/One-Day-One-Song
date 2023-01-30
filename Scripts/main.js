@@ -41,6 +41,8 @@ function onYouTubeIframeAPIReady() {
         }
     });
 
+    iframe.setAttribute('origin', 'https://www.youtube.com/');
+
     let img = document.createElement('img');
     img.src = url;
     songCover.appendChild(img);
