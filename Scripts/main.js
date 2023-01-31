@@ -39,7 +39,7 @@ function onYouTubeIframeAPIReady() {
         width: '100%',
         videoId: id,
         playerVars: {
-            autoplay: 1,
+            autoplay: 0,
             allowfullscreen: 0,
             controls: 0
         },
