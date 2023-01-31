@@ -28,13 +28,13 @@
     aspect-ratio: 1;
 }
 
-img {
-    width: max-content;
-    height: 100%;
+#song-video {
+    visibility: hidden;
+    pointer-events: none;
 }
 
-iframe {
-    width: 100%;
+img {
+    width: max-content;
     height: 100%;
 }
 
