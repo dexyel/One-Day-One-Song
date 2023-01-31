@@ -44,12 +44,11 @@ iframe {
 
 .closed {
     width: 10%;
-    background-color: rgba(128, 128, 128, 0.9) !important;
 }
 
 .closed > img,
 .closed > iframe {
-    filter: saturate(0%);
+    filter: saturate(0);
     opacity: 0.2;
     pointer-events: none;
 }
