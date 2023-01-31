@@ -1,4 +1,3 @@
-//#region VARIABLES
 const leftDivs = document.querySelectorAll('#left-container div');
 const songCover = document.getElementById('song-cover');
 const songVideo = document.getElementById('song-video');
@@ -11,17 +10,22 @@ const body = document.querySelector('body');
 
 let isPlaying = false;
 let player;
-//#endregion
+let cookies = document.cookie.split(';');
 
-//#region LISTENERS
+for (var i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i];
+    let cookieName = cookie.split('=')[0];
+    let cookieValue = cookie.split('=')[1];
+
+    document.cookie = cookieName + '=' + cookieValue + '; SameSite=None; Secure';
+}
+
 playButton.addEventListener('click', handlePlayPause);
 
 leftDivs.forEach((div) => {
     div.addEventListener('click', (e) => switchLeftView(e));
 });
-//#endregion
 
-//#region FUNCTIONS
 function onYouTubeIframeAPIReady() {
     let artist = localStorage.getItem('artist');
     let title = localStorage.getItem('title');
@@ -34,9 +38,14 @@ function onYouTubeIframeAPIReady() {
         height: '100%',
         width: '100%',
         videoId: id,
+        playerVars: {
+            autoplay: 1,
+            allowfullscreen: 0,
+            controls: 0
+        },
         events: {
             'onReady': onPlayerReady,
-            'onPlayerStateChange': onPlayerStateChange
+            'onStateChange': onPlayerStateChange
         }
     });
 
@@ -68,16 +77,27 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange() {
     isPlaying = !isPlaying;
+    console.log("onPlayerStateChange: " + isPlaying);
+    updateButton();
 }
 
 function updateButton() {
-    const i = playButton.querySelector('i');
+    let i = playButton.querySelector('i');
 
     if (isPlaying) {
         i.classList.replace('fa-circle-play', 'fa-circle-pause');
     }
     else {
         i.classList.replace('fa-circle-pause', 'fa-circle-play');
+    }
+}
+
+function handlePlayPause() {
+    if (isPlaying) {
+        player.pauseVideo();
+    }
+    else {
+        player.playVideo();
     }
 }
 
@@ -91,4 +111,3 @@ function switchLeftView(e) {
         songCover.classList.replace('opened', 'closed');
     }
 }
-//#endregion
