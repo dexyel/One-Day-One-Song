@@ -71,8 +71,8 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-function onPlayerReady() {
-    player.playVideo();
+function onPlayerReady(event) {
+    event.target.playVideo();
 }
 
 function onPlayerStateChange() {
