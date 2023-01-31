@@ -8,8 +8,10 @@ const songTitle = document.getElementById('song-title');
 const lyricsDiv = document.getElementById('lyrics');
 const body = document.querySelector('body');
 
+let autoStart = false;
 let isPlaying = false;
 let player;
+let interval;
 let cookies = document.cookie.split(';');
 
 for (var i = 0; i < cookies.length; i++) {
@@ -66,28 +68,89 @@ function onYouTubeIframeAPIReady() {
     lyrics.lines.forEach(line => {
         let p = document.createElement('p');
         p.innerHTML = line.words;
+        p.setAttribute('data-start-time', line.startTimeMs);
         p.classList.add('lyrics-line');
         lyricsDiv.appendChild(p);
     });
 }
 
 function onPlayerReady(event) {
-    event.target.playVideo();
+    if (autoStart) {
+        event.target.playVideo();
+    }
 }
 
-function onPlayerStateChange() {
-    let state = player.getPlayerState();
-
-    if (state === 1) {
+function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING) {
         isPlaying = true;
+
+        interval = setInterval(() => {
+            syncLyrics();
+        }, 500);        
+    }
+    else if (event.data === YT.PlayerState.PAUSED) {
+        isPlaying = false;
     }
     else {
         isPlaying = false;
+        clearInterval(interval);
     }
 
-    console.log("onPlayerStateChange: " + isPlaying);
-
     updateButton();
+}
+
+function syncLyrics() { 
+    time = player.getCurrentTime();
+    convertedTime = time * 1000;
+
+    let lyrics = document.getElementsByClassName('lyrics-line');
+
+    for (var i = 0; i < lyrics.length; i++) {
+        let startTime = parseInt(lyrics[i].getAttribute('data-start-time'));
+
+        if (convertedTime >= startTime ) {
+            lyrics[i].style.opacity = 1;
+
+            if (i >= 14) {
+                lyricsDiv.scrollTop = lyrics[i].offsetTop - lyricsDiv.offsetTop;
+            }
+
+            let nextIndex = i + 1;
+
+            if (nextIndex < lyrics.length) {
+                let nextTime = parseInt(lyrics[nextIndex].getAttribute('data-start-time'));
+
+                if (convertedTime < nextTime) {
+                    break;
+                }
+                else {
+                    lyrics[i].style.opacity = 0.2;
+                }
+            }
+        } 
+        else {
+            lyrics[i].style.opacity = 0.2;
+        }
+    }
+}
+
+function startScrolling() {
+    let start = Date.now();
+    let duration = (player.getDuration() * 1000) - 200;
+    let totalHeight = lyricsDiv.scrollHeight - lyricsDiv.clientHeight;
+
+    let interval = setInterval(() => {
+        let elapsedTime = Date.now() - start;
+        let progress = elapsedTime / duration;
+
+        if (progress >= 1) {
+            clearInterval(interval);
+        }
+        else
+        {
+            lyricsDiv.scrollTop = totalHeight * progress;
+        }
+    }, 20);
 }
 
 function updateButton() {

@@ -93,3 +93,7 @@ img {
 #song-title {
     font-weight: 400;
 }
+
+.lyrics-line {
+    transition: opacity 0.5s ease;
+}
