@@ -36,6 +36,7 @@ const todayTitle = docSnap.data().title;
 const todayID = docSnap.data().id;
 const todayURL = docSnap.data().url;
 const todayBackground = docSnap.data().background;
+const remix = docSnap.data().remix ? docSnap.data().remix : false;
 
 localStorage.setItem('artist', todayArtist);
 localStorage.setItem('title', todayTitle);
@@ -43,6 +44,6 @@ localStorage.setItem('url', todayURL);
 localStorage.setItem('id', todayID);
 localStorage.setItem('bg', todayBackground);
 
-let url = `https://odos.comas-dylan.workers.dev/getLyricsByName/${todayArtist}/${todayTitle}`;
+let url = `https://odos.comas-dylan.workers.dev/getLyricsByName/${todayArtist}/${todayTitle}?remix=${remix}`;
 
 fetch(url).then(response => response.json()).then(data => { localStorage.setItem('lyrics', JSON.stringify(data.lyrics)); });
