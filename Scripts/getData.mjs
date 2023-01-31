@@ -19,8 +19,6 @@ const db = getFirestore(app);
 const date = new Date();
 let currentDate = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`;
 
-console.log(currentDate);
-
 const docRef = doc(db, 'song-collection', `${currentDate}`);
 const docSnap = await getDoc(docRef);
 

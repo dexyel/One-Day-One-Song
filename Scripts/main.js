@@ -76,8 +76,17 @@ function onPlayerReady() {
 }
 
 function onPlayerStateChange() {
-    isPlaying = !isPlaying;
+    let state = player.getPlayerState();
+
+    if (state === 1) {
+        isPlaying = true;
+    }
+    else {
+        isPlaying = false;
+    }
+
     console.log("onPlayerStateChange: " + isPlaying);
+
     updateButton();
 }
 
