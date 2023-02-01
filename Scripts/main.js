@@ -111,12 +111,14 @@ function syncLyrics() {
         if (convertedTime >= startTime ) {
             lyrics[i].style.opacity = 1;
 
-            if (i >= 14) {
-                lyricsDiv.style.scrollBehavior = "smooth";
+            lyricsDiv.style.scrollBehavior = "smooth";
                 lyricsDiv.scrollBy({
                     top: lyrics[i].offsetTop - lyricsDiv.offsetTop,
                     behavior: "smooth"
                 });
+
+            if (i >= 14) {
+                
             }
 
             let nextIndex = i + 1;
