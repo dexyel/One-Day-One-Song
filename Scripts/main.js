@@ -98,33 +98,19 @@ function syncLyrics() {
     time = player.getCurrentTime();
     convertedTime = (time * 1000) + 100;
 
+    let debug = document.createElement('p');
+    debug.style.position = 'fixed';
+    debug.style.fontSize = '200px';
+    debug.style.color = 'white';
+    debug.textContent = player.getDuration();
+
     let lyrics = document.getElementsByClassName('lyrics-line');
 
     for (var i = 0; i < lyrics.length; i++) {
         let startTime = parseInt(lyrics[i].getAttribute('data-start-time'));
 
         if (convertedTime >= startTime ) {
-            lyrics[i].style.opacity = 1;
-            
-            if (i >= 5) {
-                lyricsDiv.classList.add('scroll');
-            }
-
-            if (i >= lyrics.length - 5) {
-                lyricsDiv.classList.remove('scroll');
-            }            
-
-            if (lyricsDiv.classList.contains('scroll')) {
-                lyricsDiv.animate([
-                    {scrollTop: 0},
-                    {scrollTop: 100}
-                ], {
-                    duration: 5000,
-                    easing: 'linear',
-                    fill: 'forwards'
-                });
-            }
-                
+            lyrics[i].style.opacity = 1; 
 
             let nextIndex = i + 1;
 
@@ -141,6 +127,19 @@ function syncLyrics() {
         } 
         else {
             lyrics[i].style.opacity = 0.2;
+        }
+
+        if (i >= 5) {
+            let animation = lyricsDiv.animate([
+                {scrollTop: 0},
+                {scrollTop: 100}
+            ], {
+                duration: 5000,
+                easing: 'linear',
+                fill: 'forwards'
+            });
+
+            animation.play();
         }
     }
 }
