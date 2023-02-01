@@ -1,4 +1,3 @@
-const leftDivs = document.querySelectorAll('#left-container div');
 const songCover = document.getElementById('song-cover');
 const songVideo = document.getElementById('song-video');
 const playButton = document.getElementById('play-button');
@@ -23,10 +22,6 @@ for (var i = 0; i < cookies.length; i++) {
 }
 
 playButton.addEventListener('click', handlePlayPause);
-
-leftDivs.forEach((div) => {
-    div.addEventListener('click', (e) => switchLeftView(e));
-});
 
 function onYouTubeIframeAPIReady() {
     let artist = localStorage.getItem('artist');
@@ -110,14 +105,26 @@ function syncLyrics() {
 
         if (convertedTime >= startTime ) {
             lyrics[i].style.opacity = 1;
-
-            if (i >= 10) {
-                let distance = lyrics[i].offsetTop - lyricsDiv.offsetTop;
-                let duration = (lyrics[lyrics.length - 1].getAttribute('data-start-time') - startTime) / 1000;
-
-                lyricsDiv.style.transition = `scroll-top ${duration}s ease-out`;
-                lyricsDiv.scrollTop = distance;
+            
+            if (i >= 5) {
+                lyricsDiv.classList.add('scroll');
             }
+
+            if (i >= lyrics.length - 5) {
+                lyricsDiv.classList.remove('scroll');
+            }            
+
+            if (lyricsDiv.classList.contains('scroll')) {
+                lyricsDiv.animate([
+                    {scrollTop: 0},
+                    {scrollTop: 100}
+                ], {
+                    duration: 5000,
+                    easing: 'linear',
+                    fill: 'forwards'
+                });
+            }
+                
 
             let nextIndex = i + 1;
 
@@ -155,16 +162,5 @@ function handlePlayPause() {
     }
     else {
         player.playVideo();
-    }
-}
-
-function switchLeftView(e) {
-    if (e.target === songCover && songCover.classList.contains('closed')) {
-        songCover.classList.replace('closed', 'opened');
-        songVideo.classList.replace('opened', 'closed');
-    }
-    else if (e.target === songVideo && songVideo.classList.contains('closed')) {
-        songVideo.classList.replace('closed', 'opened');
-        songCover.classList.replace('opened', 'closed');
     }
 }

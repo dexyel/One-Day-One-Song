@@ -31,31 +31,16 @@
 #song-video {
     visibility: hidden;
     pointer-events: none;
+    width: 10%;
+}
+
+#song-cover {
+    width: 100%;
 }
 
 img {
     width: max-content;
     height: 100%;
-}
-
-.opened {
-    width: 100%;
-}
-
-.closed {
-    width: 10%;
-}
-
-.closed > img,
-.closed > iframe {
-    filter: saturate(0);
-    opacity: 0.2;
-    pointer-events: none;
-}
-
-.closed:hover > img,
-.closed:hover > iframe {
-    filter: saturate(100%);
 }
 
 #right-container {
