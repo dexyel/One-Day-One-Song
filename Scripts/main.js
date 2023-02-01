@@ -113,7 +113,7 @@ function syncLyrics() {
 
             if (i >= 10) {
                 let distance = lyrics[i].offsetTop - lyricsDiv.offsetTop;
-                let duration = (lyrics[lyrics.length - 1].getAttribute(data-start-time) - startTime) / 1000;
+                let duration = (lyrics[lyrics.length - 1].getAttribute('data-start-time') - startTime) / 1000;
 
                 lyricsDiv.style.transition = `scroll-top ${duration}s ease-out`;
                 lyricsDiv.scrollTop = distance;
