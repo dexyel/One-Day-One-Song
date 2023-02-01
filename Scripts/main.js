@@ -105,7 +105,6 @@ function syncLyrics() {
     debug.textContent = player.getDuration();
 
     let lyrics = document.getElementsByClassName('lyrics-line');
-    let lyricsDiv = document.getElementById('lyricsDiv');
 
     for (var i = 0; i < lyrics.length; i++) {
         let startTime = parseInt(lyrics[i].getAttribute('data-start-time'));
