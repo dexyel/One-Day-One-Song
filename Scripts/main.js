@@ -105,6 +105,15 @@ function syncLyrics() {
     debug.textContent = player.getDuration();
 
     let lyrics = document.getElementsByClassName('lyrics-line');
+    let animation = lyricsDiv.animate([
+        {scrollTop: 0},
+        {scrollTop: 100}
+    ], {
+        duration: 5000,
+        easing: 'linear',
+        fill: 'forwards'
+    });
+
 
     for (var i = 0; i < lyrics.length; i++) {
         let startTime = parseInt(lyrics[i].getAttribute('data-start-time'));
@@ -129,16 +138,7 @@ function syncLyrics() {
             lyrics[i].style.opacity = 0.2;
         }
 
-        if (i >= 5) {
-            let animation = lyricsDiv.animate([
-                {scrollTop: 0},
-                {scrollTop: 100}
-            ], {
-                duration: 5000,
-                easing: 'linear',
-                fill: 'forwards'
-            });
-
+        if (i = 5) {
             animation.play();
         }
     }
