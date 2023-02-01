@@ -101,7 +101,7 @@ function onPlayerStateChange(event) {
 
 function syncLyrics() { 
     time = player.getCurrentTime();
-    convertedTime = time * 1000;
+    convertedTime = (time * 1000) + 100;
 
     let lyrics = document.getElementsByClassName('lyrics-line');
 
