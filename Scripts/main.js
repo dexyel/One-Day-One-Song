@@ -96,7 +96,7 @@ function onPlayerStateChange(event) {
 
 function syncLyrics() { 
     time = player.getCurrentTime();
-    convertedTime = (time * 1000) + 100;
+    convertedTime = (time * 1000) + 50;
 
     let debug = document.createElement('p');
     debug.style.position = 'fixed';
@@ -116,15 +116,19 @@ function syncLyrics() {
 
             if (i >= 5) {
                 let duration = player.getDuration(); // Durée en millisecondes du scroll
-                let speed = 100; // Vitesse du scroll en pixels par seconde
-
                 let distance = lyricsDiv.scrollHeight - lyricsDiv.offsetHeight;
-                let scrollingInterval = setInterval(() => {
-                    lyricsDiv.scrollTop = lyricsDiv.scrollTop + speed / (1000 / duration);
-                    if (lyricsDiv.scrollTop >= distance) {
-                        clearInterval(scrollingInterval);
+                let start = null;
+
+                let step = (timestamp) => {
+                    if (!start) start = timestamp;
+                    let progress = (timestamp - start) / duration;
+                    let scrollBy = progress * distance;
+                    lyricsDiv.scrollBy({top: scrollBy, behavior: 'smooth'});
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
                     }
-                }, duration);
+                }
+                window.requestAnimationFrame(step);
             }
 
             if (nextIndex < lyrics.length) {
