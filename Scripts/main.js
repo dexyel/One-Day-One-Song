@@ -112,7 +112,11 @@ function syncLyrics() {
             lyrics[i].style.opacity = 1;
 
             if (i >= 14) {
-                lyricsDiv.scrollTop = lyrics[i].offsetTop - lyricsDiv.offsetTop;
+                lyricsDiv.style.scrollBehavior = "smooth";
+                lyricsDiv.scrollBy({
+                    top: lyrics[i].offsetTop - lyricsDiv.offsetTop,
+                    behavior: "smooth"
+                });
             }
 
             let nextIndex = i + 1;
@@ -132,25 +136,6 @@ function syncLyrics() {
             lyrics[i].style.opacity = 0.2;
         }
     }
-}
-
-function startScrolling() {
-    let start = Date.now();
-    let duration = (player.getDuration() * 1000) - 200;
-    let totalHeight = lyricsDiv.scrollHeight - lyricsDiv.clientHeight;
-
-    let interval = setInterval(() => {
-        let elapsedTime = Date.now() - start;
-        let progress = elapsedTime / duration;
-
-        if (progress >= 1) {
-            clearInterval(interval);
-        }
-        else
-        {
-            lyricsDiv.scrollTop = totalHeight * progress;
-        }
-    }, 20);
 }
 
 function updateButton() {
