@@ -121,7 +121,7 @@ function syncLyrics() {
             if (i > 5 && i < lyrics.length - 5) {
                 if (!scroll) {
                     let p = document.querySelector('#lyrics p');
-                    p.style.animation = `scroll ${player.getDuration()}s ease-out forwards;`;
+                    p.style.animation = `scroll ${player.getDuration()}s ease-out forwards !important;`;
                     console.log("i:",i);
                     console.log("p:", p);
                     console.log("dur:", player.getDuration());
