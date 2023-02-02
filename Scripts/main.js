@@ -121,12 +121,12 @@ function syncLyrics() {
             if (i > 5 && i < lyrics.length - 5) {
                 if (!scroll) {
                     let p = document.querySelector('#lyrics p');
-                    let animation = `scroll ${player.getDuration() / 1000}s ease-out forwards;`
-                    p.animate(animation);
-                    scroll = true;
+                    p.style.animation = `scroll ${player.getDuration()}s ease-out forwards;`;
                     console.log("i:",i);
                     console.log("p:", p);
-                    console.log("dur:",player.getDuration()/1000);
+                    console.log("dur:", player.getDuration());
+
+                    scroll = true;
                 }
             }
             else {
