@@ -121,7 +121,7 @@ function syncLyrics() {
             if (i > 5 && i < lyrics.length - 5) {
                 if (!scroll) {
                     let p = document.querySelector('#lyrics p');
-                    p.style.animation = `scroll ${player.getDuration() / 1000} ease-out forwards;`
+                    p.style.animation = `scroll ${player.getDuration() / 1000}s ease-out forwards;`
                     scroll = true;
                 }
             }
