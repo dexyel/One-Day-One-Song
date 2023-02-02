@@ -91,10 +91,10 @@ img {
     left: 0;
 }
 
-/*👉#lyrics > p {
-    animation: scroll calc(60s * 3) ease-out forwards;
+p.scroll {
+    animation: scroll ease forwards;
 }
-👈*/
+
 @keyframes scroll {
     0% {
         transform: translateY(0);

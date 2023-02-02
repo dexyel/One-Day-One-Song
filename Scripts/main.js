@@ -101,12 +101,6 @@ function syncLyrics() {
     time = player.getCurrentTime();
     convertedTime = (time * 1000) - 50;
 
-    let debug = document.createElement('p');
-    debug.style.position = 'fixed';
-    debug.style.fontSize = '200px';
-    debug.style.color = 'white';
-    debug.textContent = player.getDuration();
-
     let lyrics = document.getElementsByClassName('lyrics-line');
     let scroll = false;
 
@@ -117,24 +111,35 @@ function syncLyrics() {
             lyrics[i].style.opacity = 1; 
 
             let nextIndex = i + 1;
+            let nextTime = parseInt(lyrics[nextIndex].getAttribute('data-start-time'));
+            let p = document.querySelector('#lyrics p');
 
-            if (i > 5 && i < lyrics.length - 5) {
+            if (i >= 4) {
+                console.log("start")
+
+                let duration = player.getDuration() - parseInt(lyrics[0].getAttribute('data-start-time'));
+                let averageSpeed = duration / lyrics.length;
+                let timeDiff = nextTime - startTime;
+                let scrollSpeed = averageSpeed * (timeDiff / duration);
+
+                p.style.animationDuration = `${scrollSpeed}s`;
+
                 if (!scroll) {
-                    let p = document.querySelector('#lyrics p');
-                    p.style.animation = `scroll ${player.getDuration()}s ease-out forwards !important;`;
-                    console.log("i:",i);
-                    console.log("p:", p);
-                    console.log("dur:", player.getDuration());
-
+                    p.classList.add('scroll');
                     scroll = true;
                 }
             }
-            else {
-                scroll = false;
+
+            if (i >= lyrics.length - 5) {
+                console.log("stop")
+                if (scroll && p.classList.contains('scroll')) {
+                    p.classList.remove('scroll');
+                    scroll = false;
+                }
             }
 
             if (nextIndex < lyrics.length) {
-                let nextTime = parseInt(lyrics[nextIndex].getAttribute('data-start-time'));
+                
 
                 if (convertedTime < nextTime) {
                     break;
