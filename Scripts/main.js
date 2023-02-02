@@ -120,12 +120,14 @@ function syncLyrics() {
 
             if (i > 5 && i < lyrics.length - 5) {
                 if (!scroll) {
-                    console.log("start anim");
                     let p = document.querySelector('#lyrics p');
-                    p.style.animation = `scroll ${player.getDuration() / 1000}s ease-out forwards;`
+                    let animation = `scroll ${player.getDuration() / 1000}s ease-out forwards;`
+                    p.animate(animation);
+                    scroll = true;
+                    console.log("i:",i);
+                    console.log("p:", p);
+                    console.log("dur:",player.getDuration()/1000);
                 }
-                
-                scroll = true;
             }
             else {
                 scroll = false;
