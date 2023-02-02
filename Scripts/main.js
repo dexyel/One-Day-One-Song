@@ -60,13 +60,16 @@ function onYouTubeIframeAPIReady() {
     background.src = bg;
     body.insertBefore(background, document.querySelector('#main-container'));
 
+    let p = document.createElement('p');
+    lyricsDiv.appendChild(p);
+
     lyrics.lines.forEach(line => {
-        let p = document.createElement('p');
-        p.innerHTML = line.words;
-        p.setAttribute('data-start-time', line.startTimeMs);
-        p.classList.add('lyrics-line');
-        lyricsDiv.appendChild(p);
-    });
+        let span = document.createElement('span');
+        span.innerHTML = line.words + '</br>';
+        span.setAttribute('data-start-time', line.startTimeMs);
+        span.classList.add('lyrics-line');
+        p.appendChild(span);
+    });    
 }
 
 function onPlayerReady(event) {

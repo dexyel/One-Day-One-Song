@@ -64,11 +64,11 @@ img {
     text-align: center;
     overflow: auto;
     margin-bottom: 2rem;
+    line-height: 2rem;
 }
 
-#lyrics p {
+#lyrics p span {
     opacity: 0.2;
-    margin-bottom: calc(1px + 1vh);
 }
 
 #artist-name {
