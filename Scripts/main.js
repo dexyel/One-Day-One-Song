@@ -108,6 +108,7 @@ function syncLyrics() {
     debug.textContent = player.getDuration();
 
     let lyrics = document.getElementsByClassName('lyrics-line');
+    let scroll = false;
 
     for (var i = 0; i < lyrics.length; i++) {
         let startTime = parseInt(lyrics[i].getAttribute('data-start-time'));
@@ -117,21 +118,12 @@ function syncLyrics() {
 
             let nextIndex = i + 1;
 
-            if (i >= 5) {
-                let duration = player.getDuration(); // Durée en millisecondes du scroll
-                let distance = lyricsDiv.scrollHeight - lyricsDiv.offsetHeight;
-                let start = null;
-
-                let step = (timestamp) => {
-                    if (!start) start = timestamp;
-                    let progress = (timestamp - start) / duration;
-                    let scrollBy = progress * distance;
-                    lyricsDiv.scrollBy({top: scrollBy, behavior: 'smooth'});
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
+            if (i > 5 && i < lyrics.length - 5) {
+                if (!scroll) {
+                    let p = document.querySelector('#lyrics p');
+                    p.style.animation = `scroll ${player.getDuration() / 1000} ease-out forwards;`
+                    scroll = true;
                 }
-                window.requestAnimationFrame(step);
             }
 
             if (nextIndex < lyrics.length) {
