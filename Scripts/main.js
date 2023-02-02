@@ -99,7 +99,7 @@ function onPlayerStateChange(event) {
 
 function syncLyrics() { 
     time = player.getCurrentTime();
-    convertedTime = (time * 1000) + 50;
+    convertedTime = (time * 1000) - 50;
 
     let debug = document.createElement('p');
     debug.style.position = 'fixed';
@@ -120,10 +120,15 @@ function syncLyrics() {
 
             if (i > 5 && i < lyrics.length - 5) {
                 if (!scroll) {
+                    console.log("start anim");
                     let p = document.querySelector('#lyrics p');
                     p.style.animation = `scroll ${player.getDuration() / 1000}s ease-out forwards;`
-                    scroll = true;
                 }
+                
+                scroll = true;
+            }
+            else {
+                scroll = false;
             }
 
             if (nextIndex < lyrics.length) {
