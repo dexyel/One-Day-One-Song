@@ -99,7 +99,7 @@ function onPlayerStateChange(event) {
 
 function syncLyrics() { 
     time = player.getCurrentTime();
-    convertedTime = (time * 1000) - 50;
+    convertedTime = (time * 1000) + 50;
 
     let lyrics = document.getElementsByClassName('lyrics-line');
     let scroll = false;
@@ -114,15 +114,11 @@ function syncLyrics() {
             let nextTime = parseInt(lyrics[nextIndex].getAttribute('data-start-time'));
             let p = document.querySelector('#lyrics p');
 
-            if (i >= 4) {
-                console.log("start")
-
+            if (i >= 10) {
                 let duration = player.getDuration() - parseInt(lyrics[0].getAttribute('data-start-time'));
-                let averageSpeed = duration / lyrics.length;
-                let timeDiff = nextTime - startTime;
-                let scrollSpeed = averageSpeed * (timeDiff / duration);
-
-                p.style.animationDuration = `${scrollSpeed}s`;
+                let speed = 1;
+                
+                p.style.animationDuration = `${calc(duration * speed)}s`;
 
                 if (!scroll) {
                     p.classList.add('scroll');
