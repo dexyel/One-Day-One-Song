@@ -62,14 +62,13 @@ img {
 
 #lyrics {
     text-align: center;
-    overflow: auto;
+    overflow: hidden;
     margin-bottom: 2rem;
     line-height: 2rem;
 }
 
 #lyrics p {
     position: relative;
-    overflow: hidden;
 }
 
 #lyrics p span {
@@ -92,7 +91,7 @@ img {
 }
 
 p.scroll {
-    animation: scroll ease forwards;
+    animation: scroll ease-out forwards;
 }
 
 @keyframes scroll {

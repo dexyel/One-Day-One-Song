@@ -42,7 +42,7 @@ function onYouTubeIframeAPIReady() {
         },
         events: {
             'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onStateChange': onPlayerStateChange,
         }
     });
 
@@ -73,7 +73,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    if (autoStart) {
+    if (!autoStart) {
         event.target.playVideo();
     }
 }
@@ -99,7 +99,7 @@ function onPlayerStateChange(event) {
 
 function syncLyrics() { 
     time = player.getCurrentTime();
-    convertedTime = (time * 1000) + 50;
+    convertedTime = (time * 1000) + 500;
 
     let lyrics = document.getElementsByClassName('lyrics-line');
     let scroll = false;
@@ -114,29 +114,39 @@ function syncLyrics() {
             let nextTime = parseInt(lyrics[nextIndex].getAttribute('data-start-time'));
             let p = document.querySelector('#lyrics p');
 
-            if (i >= 10) {
-                let duration = player.getDuration() - parseInt(lyrics[0].getAttribute('data-start-time'));
+            if (i >= 15) {
                 let speed = 1;
-                
-                p.style.animationDuration = `${calc(duration * speed)}s`;
+
+                let duration = player.getDuration() * speed;
+                p.style.animationDuration = `${duration}s`;
 
                 if (!scroll) {
                     p.classList.add('scroll');
                     scroll = true;
                 }
-            }
 
-            if (i >= lyrics.length - 5) {
-                console.log("stop")
-                if (scroll && p.classList.contains('scroll')) {
-                    p.classList.remove('scroll');
+                if (player.getPlayerState() === 2) {
+                    p.style.animationPlayState = "paused";
+                }
+                else if (player.getPlayerState() === 1) {
+                    p.style.animationPlayState = "running";
+                }
+
+                let line = lyrics[lyrics.length - 1];
+                let rect = line.getBoundingClientRect();
+                let bottom = (rect.bottom / lyricsDiv.offsetHeight) * 100;
+
+                console.log(bottom)
+
+                if (scroll && p.classList.contains('scroll') && bottom <= 150) {
+                    p.style.animationPlayState = "paused";
                     scroll = false;
                 }
             }
 
-            if (nextIndex < lyrics.length) {
-                
+            
 
+            if (nextIndex < lyrics.length) {
                 if (convertedTime < nextTime) {
                     break;
                 }
