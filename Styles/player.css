@@ -26,3 +26,34 @@
 #play-button:active > i{
     opacity: 0.8;
 }
+
+#timebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(1px + 0.25vh);
+    width: 0%;
+    background-color: white;
+    opacity: 0.3;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#timebar:hover {
+    opacity: 0.7;
+}
+
+#timebar.playing {
+    animation: timebarPlaying;
+}
+
+@keyframes timebarPlaying {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+#timer {
+    position: absolute;
+    right: calc(1rem + 1vw);
+    color: white;
+}

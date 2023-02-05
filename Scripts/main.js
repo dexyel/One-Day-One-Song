@@ -34,7 +34,7 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player(iframe, {
         height: '100%',
         width: '100%',
-        videoId: id,
+        videoId: 'ic7TOdmhF38',
         playerVars: {
             autoplay: 0,
             allowfullscreen: 0,
@@ -73,7 +73,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    if (!autoStart) {
+    if (autoStart) {
         event.target.playVideo();
     }
 }
@@ -82,8 +82,27 @@ function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
         isPlaying = true;
 
+        let timebar = document.getElementById('timebar');
+        let timer = document.getElementById('timer');
+
+        let duration = player.getDuration();
+        let intervalTimer = setInterval(updateTimer, 1000);
+
+        function updateTimer() {
+            let currentTime = Math.round(player.getCurrentTime());
+            let percentage = (currentTime / duration) * 100;
+
+            timebar.style.width = `${percentage}%`;
+            timer.innerHTML = `${convertCurrentTimeToString(currentTime)} / ${convertDurationToString(duration)}`;
+
+            if (currentTime >= duration) {
+                clearInterval(intervalTimer);
+            }
+        }
+       
         interval = setInterval(() => {
             syncLyrics();
+            // startTimebar();
         }, 500);        
     }
     else if (event.data === YT.PlayerState.PAUSED) {
@@ -97,9 +116,45 @@ function onPlayerStateChange(event) {
     updateButton();
 }
 
+function convertCurrentTimeToString(currentTime) {
+    let minutes = Math.floor(currentTime / 60);
+    let seconds = Math.floor(currentTime % 60);
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return `${minutes}:${seconds}`;
+}
+
+function convertDurationToString(duration) {
+    let minutes = Math.floor(duration / 60);
+    let seconds = Math.floor(duration % 60);
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return `${minutes}:${seconds}`;
+}
+
+
+// function startTimebar() {
+//     let timebar = document.getElementById('timebar');
+//     let duration = player.getDuration();
+
+//     timebar.style.animationDuration = `${duration}s`;
+//     timebar.classList.add('playing');
+
+//     if (player.getPlayerState() === 2) {
+//         timebar.style.animationPlayState = "paused";
+//     }
+//     else if (player.getPlayerState() === 1) {
+//         timebar.style.animationPlayState = "running";
+//     }
+// }
+
 function syncLyrics() { 
     time = player.getCurrentTime();
-    convertedTime = (time * 1000) + 500;
+    convertedTime = (time * 1000);
 
     let lyrics = document.getElementsByClassName('lyrics-line');
     let scroll = false;
@@ -143,8 +198,6 @@ function syncLyrics() {
                     scroll = false;
                 }
             }
-
-            
 
             if (nextIndex < lyrics.length) {
                 if (convertedTime < nextTime) {
