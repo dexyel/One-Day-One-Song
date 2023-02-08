@@ -83,16 +83,26 @@ function onPlayerStateChange(event) {
         isPlaying = true;
 
         let timebar = document.getElementById('timebar');
+        let timebarCursor = document.getElementById('timebar-cursor');
         let timer = document.getElementById('timer');
 
-        let duration = player.getDuration();
+        timebar.addEventListener("click", function(event) {
+            let clickPosition = event.clientX;
+            let timebarRect = timebar.getBoundingClientRect();
+            let timebarStart = timebarRect.left;
+            let timebarWidth = timebarRect.width;
+            let newTime = (clickPosition - timebarStart) / timebarWidth * duration;
+            player.seekTo(newTime, true);
+        });
+
+        let duration = Math.round(player.getDuration());
         let intervalTimer = setInterval(updateTimer, 1000);
 
         function updateTimer() {
             let currentTime = Math.round(player.getCurrentTime());
             let percentage = (currentTime / duration) * 100;
 
-            timebar.style.width = `${percentage}%`;
+            timebarCursor.style.width = `${percentage}%`;
             timer.innerHTML = `${convertCurrentTimeToString(currentTime)} / ${convertDurationToString(duration)}`;
 
             if (currentTime >= duration) {
@@ -102,7 +112,6 @@ function onPlayerStateChange(event) {
        
         interval = setInterval(() => {
             syncLyrics();
-            // startTimebar();
         }, 500);        
     }
     else if (event.data === YT.PlayerState.PAUSED) {
@@ -136,22 +145,6 @@ function convertDurationToString(duration) {
     return `${minutes}:${seconds}`;
 }
 
-
-// function startTimebar() {
-//     let timebar = document.getElementById('timebar');
-//     let duration = player.getDuration();
-
-//     timebar.style.animationDuration = `${duration}s`;
-//     timebar.classList.add('playing');
-
-//     if (player.getPlayerState() === 2) {
-//         timebar.style.animationPlayState = "paused";
-//     }
-//     else if (player.getPlayerState() === 1) {
-//         timebar.style.animationPlayState = "running";
-//     }
-// }
-
 function syncLyrics() { 
     time = player.getCurrentTime();
     convertedTime = (time * 1000);
@@ -169,7 +162,7 @@ function syncLyrics() {
             let nextTime = parseInt(lyrics[nextIndex].getAttribute('data-start-time'));
             let p = document.querySelector('#lyrics p');
 
-            if (i >= 15) {
+            if (i >= 13) {
                 let speed = 1;
 
                 let duration = player.getDuration() * speed;

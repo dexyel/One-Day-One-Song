@@ -36,6 +36,8 @@ const todayURL = docSnap.data().url;
 const todayBackground = docSnap.data().background;
 const remix = docSnap.data().remix ? docSnap.data().remix : false;
 
+localStorage.clear();
+
 localStorage.setItem('artist', todayArtist);
 localStorage.setItem('title', todayTitle);
 localStorage.setItem('url', todayURL);
